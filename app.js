@@ -12,6 +12,7 @@ var app = new Vue({
                                     </div>
                                 </div>
                                 <div class="right floated three wide column">
+                                    <i class="icon pencil blue" alt="Edit" v-on:click="app.editTask($event, task.id)"></i>
                                     <i class="icon trash red" alt="Delete" v-on:click="app.deleteTask($event, task.id)"></i>
                                 </div>
                             </div>
@@ -38,6 +39,8 @@ var app = new Vue({
     },
     methods: {
         toggleDone: function(event, id) {
+            event.stopImmediatePropagation();
+
             let task = this.tasks.find(item => item.id == id);
             
             if (task) {
@@ -45,15 +48,31 @@ var app = new Vue({
                 console.log(`Task ${task.name} is now ${task.completed ? 'done' : 'todo'}`);
             }
         },
-        deleteTask: function(event, id) {
-            console.log('task deleted');
-            // let task = this.tasks.find(item => item.id == id);
-            
+        editTask: function(event, id) {
+            event.stopImmediatePropagation();
+
+            let task = this.tasks.find(item => item.id == id);
+
             // if (task) {
-            //     let index = this.tasks.indexOf(task);
-            //     this.tasks.splice(index, 1);
-            //     console.log(`Task ${task.name} has been deleted`);
+            //     let newName = prompt('Enter the new name', task.name);
+            //     let newDescription = prompt('Enter the new description', task.description);
+
+            //     if (newName && newDescription) {
+            //         task.name = newName;
+            //         task.description = newDescription;
+            //         console.log(`Task with id ${id} was updated`);
+            //     }
             // }
+        },
+        deleteTask: function(event, id) {
+            event.stopImmediatePropagation(); // clicking it does not trigger any other event handlers at the same time
+
+            let taskIndex = this.tasks.findIndex(item => item.id == id);
+
+            if (taskIndex > -1) {
+                this.$delete(this.tasks, taskIndex); // vue method to delete an item from a collection
+                console.log(`Task with id ${id} was deleted`);
+            }
         }
     }
 })
