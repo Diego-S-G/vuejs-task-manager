@@ -16,7 +16,7 @@ var app = new Vue({
                                 </div>
                             </div>
                         </div>`
-        }
+        } // app.toggleDone(...) pq sem não funciona, por causa do escopo
     },
     data: {
         tasks: [
