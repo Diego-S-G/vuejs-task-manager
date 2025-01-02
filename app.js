@@ -27,6 +27,7 @@ var app = new Vue({
             { id: 4, name: 'Todo 4', description: 'Go to the gym', completed: false },
             { id: 5, name: 'Todo 5', description: 'Get some sleep', completed: false }
         ],
+        task: {},
         message: 'Bankai Katen Kyokotsu Karamatsu Shinjuu'
     },
     computed: {
@@ -53,16 +54,9 @@ var app = new Vue({
 
             let task = this.tasks.find(item => item.id == id);
 
-            // if (task) {
-            //     let newName = prompt('Enter the new name', task.name);
-            //     let newDescription = prompt('Enter the new description', task.description);
-
-            //     if (newName && newDescription) {
-            //         task.name = newName;
-            //         task.description = newDescription;
-            //         console.log(`Task with id ${id} was updated`);
-            //     }
-            // }
+            if (task) {
+                this.task = task;
+            }
         },
         deleteTask: function(event, id) {
             event.stopImmediatePropagation(); // clicking it does not trigger any other event handlers at the same time
