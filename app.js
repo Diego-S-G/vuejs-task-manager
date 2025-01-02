@@ -1,5 +1,13 @@
 var app = new Vue({
     el: '#app',
+    components: {
+        'task': {
+            props: ['task'],
+            template: `<div class="ui segment task" v-bind:class="task.completed ? 'done' : 'todo'">
+                            {{task.id}} {{task.name}}: {{task.description}} completed? {{task.completed}}
+                        </div>`
+        }
+    },
     data: {
         tasks: [
             { id: 1, name: 'Todo 1', description: 'Go to the store', completed: true },
