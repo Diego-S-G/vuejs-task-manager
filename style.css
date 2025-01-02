@@ -3,8 +3,6 @@
 }
 
 .task.done {
-    text-decoration: line-through;
-    color: #999;
     background: lightgreen;
 }
 
