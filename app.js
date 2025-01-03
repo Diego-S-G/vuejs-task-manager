@@ -28,7 +28,8 @@ var app = new Vue({
             { id: 5, name: 'Todo 5', description: 'Get some sleep', completed: false }
         ],
         task: {},
-        message: 'Bankai Katen Kyokotsu Karamatsu Shinjuu'
+        message: 'Bankai Katen Kyokotsu Karamatsu Shinjuu',
+        action: 'create'
     },
     computed: {
         completedTasks: function() {
@@ -39,6 +40,10 @@ var app = new Vue({
         }
     },
     methods: {
+        clear: function() {
+            this.task = {};
+            this.action = 'create';
+        },
         toggleDone: function(event, id) {
             event.stopImmediatePropagation();
 
@@ -50,6 +55,7 @@ var app = new Vue({
             }
         },
         editTask: function(event, id) {
+            this.action = 'edit';
             let task = this.tasks.find(item => item.id == id);
 
             if (task) {
