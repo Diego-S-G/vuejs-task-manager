@@ -31,12 +31,15 @@ var app = new Vue({
         message: 'Bankai Katen Kyokotsu Karamatsu Shinjuu',
         action: 'create'
     },
-    computed: {
+    computed: { // esses computed são funções mas são que tratadas como propriedades
         completedTasks: function() {
             return this.tasks.filter(item => item.completed === true);
         },
         todoTasks: function() {
             return this.tasks.filter(item => item.completed === false);
+        },
+        nextId: function() {
+            return (this.tasks.sort(function(a,b){ return a.id - b.id }))[this.tasks.length - 1].id + 1;
         }
     },
     methods: {
@@ -54,6 +57,25 @@ var app = new Vue({
                 console.log(`Task ${task.name} is now ${task.completed ? 'done' : 'todo'}`);
             }
         },
+        createTask: function(event) {
+            event.preventDefault();
+
+            if (!this.task.completed) {
+                this.task.completed = false;
+            } else {
+                this.task.completed = true;
+            }
+
+            let taskId = this.nextId;
+            this.task.id = taskId;
+
+            let newTask = Object.assign({}, this.task);
+            this.tasks.push(newTask);
+
+            console.log(`Task with id ${taskId} was created`);
+
+            this.clear();
+        },
         editTask: function(event, id) {
             this.action = 'edit';
             let task = this.tasks.find(item => item.id == id);
@@ -64,7 +86,7 @@ var app = new Vue({
         },
         updateTask: function(event, id) {
             event.stopImmediatePropagation();
-            event.preventDefault();
+            event.preventDefault(); // aqui é preciso pq cai no submit do form, q na teoria vai p server side e aqui é mais uma simulação já que não persiste por enquanto
 
             let task = this.tasks.find(item => item.id == id)
 
