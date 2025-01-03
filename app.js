@@ -28,7 +28,7 @@ var app = new Vue({
             { id: 5, name: 'Todo 5', description: 'Get some sleep', completed: false }
         ],
         task: {},
-        message: 'Bankai Katen Kyokotsu Karamatsu Shinjuu',
+        message: '',
         action: 'create'
     },
     computed: { // esses computed são funções mas são que tratadas como propriedades
@@ -46,6 +46,7 @@ var app = new Vue({
         clear: function() {
             this.task = {};
             this.action = 'create';
+            this.message = '';
         },
         toggleDone: function(event, id) {
             event.stopImmediatePropagation();
@@ -54,7 +55,7 @@ var app = new Vue({
             
             if (task) {
                 task.completed = !task.completed;
-                console.log(`Task ${task.name} is now ${task.completed ? 'done' : 'todo'}`);
+                this.message = `Task ${task.name} is now ${task.completed ? 'done' : 'todo'}`;
             }
         },
         createTask: function(event) {
@@ -72,9 +73,10 @@ var app = new Vue({
             let newTask = Object.assign({}, this.task);
             this.tasks.push(newTask);
 
-            console.log(`Task with id ${taskId} was created`);
-
             this.clear();
+            
+            this.message = `Task with Id ${taskId} was created`;
+
         },
         editTask: function(event, id) {
             this.action = 'edit';
@@ -94,7 +96,7 @@ var app = new Vue({
                 task.name = this.task.name;
                 task.description = this.task.description;
                 task.completed = this.task.completed;
-                console.log(`Task with id ${id} was updated`);
+                this.message = `Task ${task.name} was updated`;
             }
         },
         deleteTask: function(event, id) {
@@ -104,7 +106,7 @@ var app = new Vue({
 
             if (taskIndex > -1) {
                 this.$delete(this.tasks, taskIndex); // vue method to delete an item from a collection
-                console.log(`Task with id ${id} was deleted`);
+                this.message = `Task with id ${id} was deleted`;
             }
         }
     }
