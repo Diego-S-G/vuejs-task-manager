@@ -59,7 +59,6 @@ var app = new Vue({
             }
         },
         createTask: function(event) {
-            event.preventDefault();
 
             if (!this.task.completed) {
                 this.task.completed = false;
@@ -88,7 +87,6 @@ var app = new Vue({
         },
         updateTask: function(event, id) {
             event.stopImmediatePropagation();
-            event.preventDefault(); // aqui é preciso pq cai no submit do form, q na teoria vai p server side e aqui é mais uma simulação já que não persiste por enquanto
 
             let task = this.tasks.find(item => item.id == id)
 
